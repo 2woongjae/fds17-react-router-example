@@ -1,5 +1,6 @@
 import React from "react";
 import qs from "query-string";
+import { Redirect } from "react-router-dom";
 
 export default function About(props) {
   console.log(props);
@@ -12,6 +13,10 @@ export default function About(props) {
   // console.log(searchParams.get("id"), searchParams.get("name"));
   // 외부 라이브러리
   const { id } = qs.parse(search);
+
+  if (id !== undefined) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div>

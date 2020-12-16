@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  NavLink,
+  Redirect,
+} from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 
 // => Component
@@ -15,15 +21,60 @@ import Profile from "./pages/Profile";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import ErrorPage from "./pages/ErrorPage";
+import Login from "./pages/Login";
+
+const isLogin = false;
 
 function App() {
   return (
     <ErrorBoundary FallbackComponent={ErrorPage}>
       <BrowserRouter>
+        <div>
+          <ul>
+            <li>
+              <NavLink to="/">home</NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/profile"
+                exact
+                activeStyle={{
+                  color: "red",
+                }}
+              >
+                profile
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/profile/3" exact activeClassName="active_mark">
+                profile : 3
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/about">about</NavLink>
+            </li>
+            <li>
+              <NavLink to="/about?id=5">about : 5</NavLink>
+            </li>
+            <li>
+              <NavLink to="/login">login</NavLink>
+            </li>
+          </ul>
+        </div>
         <Switch>
           <Route path="/about" component={About} />
           <Route path="/profile/:id" component={Profile} />
           <Route path="/profile" component={Profile} />
+          <Route
+            path="/login"
+            render={(props) => {
+              console.log("헛", props);
+              if (isLogin) {
+                return <Redirect to="/" />;
+              }
+              return <Login />;
+            }}
+          />
           <Route path="/" exact component={Home} />
           <Route component={NotFound} />
         </Switch>
